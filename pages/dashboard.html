@@ -1,29 +1,98 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { background: transparent; color: white; font-family: sans-serif; padding: 20px; }
-        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-        .card { background: #111; border: 1px solid #8A2BE2; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(138, 43, 226, 0.2); }
-        h1 { color: #8A2BE2; text-shadow: 0 0 5px #8A2BE2; }
-        .value { font-size: 24px; font-weight: bold; margin-top: 10px; }
+        body { font-family: 'Inter', sans-serif; background-color: #050505; color: white; }
+        .nitro-card { background: #0D0D0D; border: 1px solid #1A1A1A; border-radius: 12px; transition: 0.3s; }
+        .nitro-card:hover { border-color: #8A2BE2; box-shadow: 0 0 15px rgba(138, 43, 226, 0.1); }
+        .text-neon { color: #8A2BE2; text-shadow: 0 0 8px rgba(138, 43, 226, 0.5); }
     </style>
 </head>
-<body>
-    <h1>Bem-vindo à NitroRP</h1>
-    <div class="stats-grid">
-        <div class="card">
-            <div>Vendas Hoje</div>
-            <div class="value">R$ 1.250,00</div>
+<body class="p-6">
+    <!-- Cabeçalho -->
+    <div class="flex justify-between items-center mb-8">
+        <div>
+            <h1 class="text-2xl font-bold">Olá, Administrador!</h1>
+            <p class="text-gray-500 text-sm">Seu servidor está online <span class="text-green-500">●</span></p>
         </div>
-        <div class="card">
-            <div>Jogadores Online</div>
-            <div class="value">142</div>
-        </div>
-        <div class="card">
-            <div>Saldo Mizano</div>
-            <div class="value">R$ 4.302,50</div>
+        <div class="flex gap-4">
+            <select class="bg-black border border-gray-800 p-2 rounded-lg text-sm">
+                <option>Servidor FiveM #1</option>
+            </select>
         </div>
     </div>
+
+    <!-- Cards Principais -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <div class="nitro-card p-5">
+            <p class="text-gray-400 text-xs">Total em Vendas (30 dias)</p>
+            <h2 class="text-2xl font-bold mt-2">R$ 4.580,00</h2>
+            <span class="text-green-500 text-xs">+12% em relação ao mês passado</span>
+        </div>
+        <div class="nitro-card p-5">
+            <p class="text-gray-400 text-xs">Assinaturas Ativas</p>
+            <h2 class="text-2xl font-bold mt-2">142 players</h2>
+            <p class="text-gray-500 text-xs">Recorrência mensal</p>
+        </div>
+        <div class="nitro-card p-5">
+            <p class="text-gray-400 text-xs">Novas Vendas (Hoje)</p>
+            <h2 class="text-2xl font-bold mt-2">18 itens</h2>
+        </div>
+        <div class="nitro-card p-5">
+            <p class="text-gray-400 text-xs">Ticket Médio</p>
+            <h2 class="text-2xl font-bold mt-2">R$ 45,00</h2>
+        </div>
+    </div>
+
+    <!-- Gráfico e Produtos -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 nitro-card p-6">
+            <h3 class="font-bold mb-4">Desempenho de Vendas</h3>
+            <canvas id="vendasChart" height="200"></canvas>
+        </div>
+        <div class="nitro-card p-6">
+            <h3 class="font-bold mb-4 text-center">Produtos Mais Vendidos</h3>
+            <canvas id="produtosChart"></canvas>
+        </div>
+    </div>
+
+    <script>
+        // Gráfico de Linha (Vendas)
+        const ctxVendas = document.getElementById('vendasChart').getContext('2d');
+        new Chart(ctxVendas, {
+            type: 'line',
+            data: {
+                labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+                datasets: [{
+                    label: 'Vendas',
+                    data: [400, 700, 500, 900, 750, 1100, 850],
+                    borderColor: '#8A2BE2',
+                    backgroundColor: 'rgba(138, 43, 226, 0.1)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: { plugins: { legend: { display: false } }, scales: { y: { display: false }, x: { grid: { display: false } } } }
+        });
+
+        // Gráfico de Rosca (Produtos)
+        const ctxProdutos = document.getElementById('produtosChart').getContext('2d');
+        new Chart(ctxProdutos, {
+            type: 'doughnut',
+            data: {
+                labels: ['VIP Ouro', 'VIP Diamante', 'Outros'],
+                datasets: [{
+                    data: [50, 30, 20],
+                    backgroundColor: ['#8A2BE2', '#4B0082', '#1A1A1A'],
+                    borderWidth: 0
+                }]
+            },
+            options: { plugins: { legend: { position: 'bottom', labels: { color: '#fff', boxWidth: 10 } } } }
+        });
+    </script>
 </body>
 </html>
