@@ -1,15 +1,49 @@
-<script>
-    function ir(pagina, elemento) {
-        const frame = document.getElementById('tela');
-        // Adicionamos um ./ antes de pages para garantir que ele procure na pasta atual
-        frame.src = './pages/' + pagina + '.html';
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NitroRP | Painel</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #000; color: #fff; font-family: 'Segoe UI', sans-serif; display: flex; height: 100vh; }
+        
+        /* Sidebar Roxa Neon */
+        #sidebar { width: 250px; background: #0d0d0d; border-right: 2px solid #8A2BE2; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+        .logo { color: #8A2BE2; font-size: 22px; font-weight: bold; text-align: center; margin-bottom: 30px; text-shadow: 0 0 10px #8A2BE2; }
+        
+        .btn { padding: 15px; color: #aaa; text-decoration: none; border-radius: 5px; cursor: pointer; transition: 0.3s; }
+        .btn:hover { background: #1a1a1a; color: #8A2BE2; box-shadow: 0 0 10px rgba(138, 43, 226, 0.3); }
+        .active { background: #1a1a1a; color: #8A2BE2; border-left: 4px solid #8A2BE2; }
 
-        document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
-        elemento.classList.add('active');
+        /* Área do Conteúdo */
+        #content { flex: 1; background: #050505; }
+        iframe { width: 100%; height: 100%; border: none; }
+    </style>
+</head>
+<body>
+
+<div id="sidebar">
+    <div class="logo">NITRO RP</div>
+    <div class="btn active" onclick="nav('dashboard', this)">🏠 Dashboard</div>
+    <div class="btn" onclick="nav('lojas', this)">🛒 Minhas Lojas</div>
+    <div class="btn" onclick="nav('produtos', this)">📦 Produtos</div>
+    <div class="btn" onclick="nav('clientes', this)">👥 Clientes</div>
+    <div class="btn" onclick="nav('financeiro', this)">💰 Financeiro</div>
+    <div class="btn" onclick="nav('integracoes', this)">⚡ Integrações</div>
+</div>
+
+<div id="content">
+    <iframe id="main-frame" src="pages/dashboard.html"></iframe>
+</div>
+
+<script>
+    function nav(page, el) {
+        document.getElementById('main-frame').src = 'pages/' + page + '.html';
+        document.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
+        el.classList.add('active');
     }
-    
-    // Forçar o carregamento inicial da dashboard ao abrir
-    window.onload = function() {
-        document.getElementById('tela').src = './pages/dashboard.html';
-    };
 </script>
+
+</body>
+</html>
